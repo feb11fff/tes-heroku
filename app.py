@@ -130,7 +130,7 @@ with st.container():
                 options.add_argument('--no-sandbox')
                 options.headless = True
                 
-                driver = webdriver.Chrome(options=options)
+                driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,options=options)
                 # URL dari Google Search
                 url='https://www.google.com/maps/place/Jaddih+Hill+Madura/@-7.0822777,112.7569647,17z/data=!4m8!3m7!1s0x2dd8045eb0acb79d:0x4a24af02fd796f55!8m2!3d-7.082283!4d112.7595396!9m1!1b1!16s%2Fg%2F11c2r8kctr?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D'
                 driver.get(url)
