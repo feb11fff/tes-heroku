@@ -146,7 +146,7 @@ with st.container():
 
                                 # Iterasi melalui setiap teks di ext_data dan ambil kalimat pertama
                                 for text in ext_data:
-                                    first_sentence = text.split('.')[0]  # Mengambil kalimat pertama sebelum titik
+                                    first_sentence = text  # Mengambil kalimat pertama sebelum titik
                                     review_texts.append(first_sentence)  # Simpan kalimat pertama ke dalam list
 
                     return review_texts
