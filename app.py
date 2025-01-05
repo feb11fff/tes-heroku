@@ -122,6 +122,7 @@ with st.container():
                 from selenium.common.exceptions import NoSuchElementException, WebDriverException
                 from selenium.webdriver.chrome.service import Service
                 import os
+                CHROMEDRIVER_PATH = os.environ.get('CHROMEDRIVER_PATH', '/usr/local/bin/chromedriver')
                 chrome_options = webdriver.ChromeOptions()
                 chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
                 chrome_options.add_argument("--headless")
