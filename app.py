@@ -119,6 +119,8 @@ with st.container():
                 from selenium import webdriver
                 from selenium import webdriver
                 from selenium.webdriver.chrome.options import Options
+                from selenium.common.exceptions import NoSuchElementException, WebDriverException
+                import os
                 CHROMEDRIVER_PATH = os.environ.get('CHROMEDRIVER_PATH', '/usr/local/bin/chromedriver')
                 GOOGLE_CHROME_BIN = os.environ.get('GOOGLE_CHROME_BIN', '/usr/bin/google-chrome')
                 # Konfigurasi opsi headless
