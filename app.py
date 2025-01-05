@@ -119,15 +119,16 @@ with st.container():
                 from selenium import webdriver
                 from selenium import webdriver
                 from selenium.webdriver.chrome.options import Options
-
+                CHROMEDRIVER_PATH = os.environ.get('CHROMEDRIVER_PATH', '/usr/local/bin/chromedriver')
+                GOOGLE_CHROME_BIN = os.environ.get('GOOGLE_CHROME_BIN', '/usr/bin/google-chrome')
                 # Konfigurasi opsi headless
                 options = Options()
-                options.add_argument("--headless")  # Mode headless
-                options.add_argument("--disable-gpu")  # Opsional untuk mempercepat performa
-                options.add_argument("--window-size=1920,1080")  # Opsional untuk menentukan resolusi layar
-
-                # Inisialisasi driver
-                driver = webdriver.Chrome(options=options)
+                options.binary_location = GOOGLE_CHROME_BIN
+                options.add_argument('--disable-gpu')
+                options.add_argument('--no-sandbox')
+                options.headless = True
+                
+                driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH , chrome_options=options)
                 # URL dari Google Search
                 url='https://www.google.com/maps/place/Jaddih+Hill+Madura/@-7.0822777,112.7569647,17z/data=!4m8!3m7!1s0x2dd8045eb0acb79d:0x4a24af02fd796f55!8m2!3d-7.082283!4d112.7595396!9m1!1b1!16s%2Fg%2F11c2r8kctr?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D'
                 driver.get(url)
