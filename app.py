@@ -115,42 +115,58 @@ with st.container():
       
         if st.button("Bukit Jaddih"):
             try:
-                import requests
-            
-                # URL dari selenium di vps
-                api_url = "http://157.66.54.50:8501/scrape"
-                
-                # URL yang ingin di-scrape
-                payload = {"url": "https://www.google.com/maps/place/Wisata+Bukit+Jaddhih/@-7.082283,112.7569647,17z/data=!4m8!3m7!1s0x2dd8045eb0acb79d:0x4a24af02fd796f55!8m2!3d-7.082283!4d112.7595396!9m1!1b1!16s%2Fg%2F11c2r8kctr?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D"}
-                
-                # Mengirimkan POST request ke API FastAPI
-                response = requests.post(api_url, json=payload)
-                
-                # Memeriksa status dan menampilkan hasilnya
-                if response.status_code == 200:
-                    result = response.json()
-                    reviews = result.get('reviews', [])
-                    print("Review Results:")
-                    for review in reviews:
-                        print(review)
-                else:
-                    print("Error:", response.status_code)
-                reviews = response.json().get('reviews', [])
-                    # Mengambil 5 data pertama dari kolom 'ulasan'
-                top_10_reviews = reviews[-5:]
-                
+                from bs4 import BeautifulSoup
+                from selenium import webdriver
+                from selenium import webdriver
+                from selenium.webdriver.chrome.options import Options
+
+                # Konfigurasi opsi headless
+                options = Options()
+                options.add_argument("--headless")  # Mode headless
+                options.add_argument("--disable-gpu")  # Opsional untuk mempercepat performa
+                options.add_argument("--window-size=1920,1080")  # Opsional untuk menentukan resolusi layar
+
+                # Inisialisasi driver
+                driver = webdriver.Chrome(options=options)
+                # URL dari Google Search
+                url='https://www.google.com/maps/place/Jaddih+Hill+Madura/@-7.0822777,112.7569647,17z/data=!4m8!3m7!1s0x2dd8045eb0acb79d:0x4a24af02fd796f55!8m2!3d-7.082283!4d112.7595396!9m1!1b1!16s%2Fg%2F11c2r8kctr?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D'
+                driver.get(url)
+                response = BeautifulSoup(driver.page_source, 'html.parser')
+                reviews = response.find_all('div', class_='w6VYqd')
+                def get_review_summary(result_set):
+                    review_texts = []  # List untuk menyimpan teks review
+
+                    for result in result_set:
+                        articles = result.find_all('div', class_='m6QErb XiKgde')
+                        for article in articles:
+                            all_divs = article.find_all('div', class_='MyEned')
+                            for div in all_divs:
+                                ext_data = div.find_all('span', class_='wiI7pd')  # Menemukan semua elemen <span> dengan kelas 'pan'
+                                ext_data = [span.get_text(strip=True) for span in ext_data]  # Mengambil teks dari setiap elemen <span> dan menghapus spasi
+
+                                # Iterasi melalui setiap teks di ext_data dan ambil kalimat pertama
+                                for text in ext_data:
+                                    first_sentence = text.split('.')[0]  # Mengambil kalimat pertama sebelum titik
+                                    review_texts.append(first_sentence)  # Simpan kalimat pertama ke dalam list
+
+                    return review_texts
+                review_texts=get_review_summary(reviews)
+
+                    # Mengambil 10 data pertama dari kolom 'ulasan'
+                top_10_reviews = review_texts[-5:]
+
                 # Transformasi data ulasan ke fitur
                 new_X = vectorizer.transform(top_10_reviews).toarray()
-                
+
                 # Membuat dictionary fitur (jika model membutuhkan format dictionary)
                 features_list = [
-                    {f"feature_{j}": new_X[i][j] for j in range(new_X.shape[1])} 
+                    {f"feature_{j}": new_X[i][j] for j in range(new_X.shape[1])}
                     for i in range(new_X.shape[0])
                 ]
-                
+
                 # Prediksi sentimen untuk setiap ulasan
                 predictions = [loaded_model.classify(features) for features in features_list]
-                
+
                 # Menampilkan hasil prediksi
                 st.subheader("Hasil Prediksi Sentimen")
                 hasil_prediksi = pd.DataFrame({
@@ -168,7 +184,10 @@ with st.container():
                 st.error("File tidak ditemukan. Pastikan path file benar.")
             except Exception as e:
                 st.error(f"Terjadi kesalahan: {e}")
-
+            import time
+            time.sleep(5)
+            # Menutup driver
+            driver.quit()
 
         if st.button("Pantai Slopeng"):
             try:
