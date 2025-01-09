@@ -185,7 +185,7 @@ with st.container():
                         return None
                         # Scroll container hingga menemukan elemen
                         container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
-                        element = scroll_div_until_element_found(driver, container_xpath,waktu, pause_time=2)
+                        element = scroll_div_until_element_found(driver, container_xpath,'2 bulan lalu', pause_time=2)
                         if element:
                             print("Teks ditemukan:", element.text)
                         else:
@@ -197,6 +197,7 @@ with st.container():
                 flat_data = [item for sublist in id_ulasan for item in sublist]
                 datas = {'id_review': flat_data, 'Review': review_texts}
                 data_scrapping = pd.DataFrame(datas)
+                data_scrapping
                     # Mengambil 10 data pertama dari kolom 'ulasan'
                 top_10_reviews = data_scrapping['Review']
 
