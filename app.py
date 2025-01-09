@@ -131,29 +131,90 @@ with st.container():
                 # URL dari Google Search
                 url = 'https://www.google.com/maps/place/Jaddih+Hill+Madura/@-7.0822777,112.7569647,17z/data=!4m8!3m7!1s0x2dd8045eb0acb79d:0x4a24af02fd796f55!8m2!3d-7.082283!4d112.7595396!9m1!1b1!16s%2Fg%2F11c2r8kctr?entry=ttu&hl=id&gl=ID'
                 driver.get(url)
-                response = BeautifulSoup(driver.page_source, 'html.parser')
-                reviews = response.find_all('div', class_='w6VYqd')
+                time.sleep(5)
+                tombol = driver.find_element(By.XPATH, "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[7]/div[2]/button")
+                tombol.click()
+                time.sleep(5)
+                # Klik menggunakan JavaScript
+                terbaru_button = driver.find_element(By.XPATH, "//div[@class='mLuXec'][contains(text(),'Terbaru')]")
+                driver.execute_script("arguments[0].click();", terbaru_button)
                 def get_review_summary(result_set):
                     review_texts = []  # List untuk menyimpan teks review
-
+                    id_ulasan=[]
+                
                     for result in result_set:
                         articles = result.find_all('div', class_='m6QErb XiKgde')
                         for article in articles:
                             all_divs = article.find_all('div', class_='MyEned')
-                            for div in all_divs:
-                                ext_data = div.find_all('span', class_='wiI7pd')  # Menemukan semua elemen <span> dengan kelas 'pan'
-                                ext_data = [span.get_text(strip=True) for span in ext_data]  # Mengambil teks dari setiap elemen <span> dan menghapus spasi
+                            if all_divs:
+                                ids = [div.get('id') for div in all_divs if div.get('id')]
+                                id_ulasan.append(ids)
+                                for div in all_divs:
+                                    ext_data = div.find_all('span', class_='wiI7pd')  # Menemukan semua elemen <span> dengan kelas 'pan'
+                                    ext_data = [span.get_text(strip=True) for span in ext_data]  # Mengambil teks dari setiap elemen <span> dan menghapus spasi
+                    
+                                                    # Iterasi melalui setiap teks di ext_data dan ambil kalimat pertama
+                                    for text in ext_data:
+                                        first_sentence = text  # Mengambil kalimat pertama sebelum titik
+                                        review_texts.append(first_sentence)  # Simpan kalimat pertama ke dalam list
+                
+                    return review_texts,id_ulasan
+                    time.sleep(5))
+                    def scroll_div_until_element_found(driver, container_xpath, target_text, pause_time=2, max_scrolls=50):
+                        """
+                        Menggulir elemen container hingga menemukan elemen dengan teks tertentu.
+                        
+                        Args:
+                            driver: Selenium WebDriver instance.
+                            container_xpath: XPath container yang dapat digulir.
+                            target_text: Teks yang dicari di dalam elemen.
+                            pause_time: Waktu jeda (dalam detik) setelah setiap scroll.
+                            max_scrolls: Jumlah maksimum scroll untuk mencegah loop tak terbatas.
+                    
+                        Returns:
+                            WebElement: Elemen yang ditemukan, atau None jika tidak ditemukan.
+                        """
+                        scroll_count = 0
+                        scrollable_div = driver.find_element(By.XPATH, container_xpath)
+                        
+                        while scroll_count < max_scrolls:
+                            try:
+                                # Cari elemen berdasarkan teks di dalam container
+                                element = driver.find_element(By.XPATH, f"{container_xpath}//span[@class='rsqaWe' and text()='{target_text}']")
+                                print("Elemen ditemukan!")
+                                return element
+                            except:
+                                pass  # Jika elemen belum ditemukan, lanjutkan scroll
+                                
+                            # Scroll container ke bawah
+                            driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scrollable_div)
+                            time.sleep(pause_time)  # Tunggu konten memuat
+                            
+                            scroll_count += 1
+                            print(f"Scroll ke-{scroll_count}")
+                    
+                        print("Elemen tidak ditemukan setelah menggulir container.")
+                        return None
+                        # Scroll container hingga menemukan elemen
+                        container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
+                        element = scroll_div_until_element_found(driver, container_xpath,waktu, pause_time=2)
+                        flat_data = [item for sublist in id_ulasan for item in sublist]
+                        import pandas as pd
 
-                                # Iterasi melalui setiap teks di ext_data dan ambil kalimat pertama
-                                for text in ext_data:
-                                    first_sentence = text  # Mengambil kalimat pertama sebelum titik
-                                    review_texts.append(first_sentence)  # Simpan kalimat pertama ke dalam list
+                        # Buat dataframe
+                        datas = {'id_review': flat_data, 'Review': review_texts}
+                        data_scrapping = pd.DataFrame(data)
+                        
+                        data_scrapping
 
-                    return review_texts
-                review_texts=get_review_summary(reviews)
+
+                        if element:
+                            print("Teks ditemukan:", element.text)
+                        else:
+                            print("Teks tidak ditemukan.")
 
                     # Mengambil 10 data pertama dari kolom 'ulasan'
-                top_10_reviews = review_texts[-5:]
+                top_10_reviews = data_scrapping[]
 
                 # Transformasi data ulasan ke fitur
                 new_X = vectorizer.transform(top_10_reviews).toarray()
