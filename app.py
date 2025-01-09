@@ -204,7 +204,7 @@ with st.container():
 
                         # Buat dataframe
                         datas = {'id_review': flat_data, 'Review': review_texts}
-                        data_scrapping = pd.DataFrame(data)
+                        data_scrapping = pd.DataFrame(datas)
 
 
                         if element:
