@@ -161,35 +161,36 @@ with st.container():
                 
                     return review_texts,id_ulasan
                     time.sleep(5)
-                    def scroll_div_until_element_found(driver, container_xpath, target_text, pause_time=2, max_scrolls=50):
-                        scroll_count = 0
-                        scrollable_div = driver.find_element(By.XPATH, container_xpath)
-                        
-                        while scroll_count < max_scrolls:
-                            try:
-                                # Cari elemen berdasarkan teks di dalam container
-                                element = driver.find_element(By.XPATH, f"{container_xpath}//span[@class='rsqaWe' and text()='{target_text}']")
-                                print("Elemen ditemukan!")
-                                return element
-                            except:
-                                pass  # Jika elemen belum ditemukan, lanjutkan scroll
-                                
-                            # Scroll container ke bawah
-                            driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scrollable_div)
-                            time.sleep(pause_time)  # Tunggu konten memuat
-                            
-                            scroll_count += 1
-                            print(f"Scroll ke-{scroll_count}")
+                def scroll_div_until_element_found(driver, container_xpath, target_text, pause_time=2, max_scrolls=50):
+                    scroll_count = 0
+                    scrollable_div = driver.find_element(By.XPATH, container_xpath)
                     
-                        print("Elemen tidak ditemukan setelah menggulir container.")
-                        return None
-                        # Scroll container hingga menemukan elemen
-                        container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
-                        element = scroll_div_until_element_found(driver, container_xpath,'2 bulan lalu', pause_time=2)
-                        if element:
-                            print("Teks ditemukan:", element.text)
-                        else:
-                            print("Teks tidak ditemukan.")
+                    while scroll_count < max_scrolls:
+                        try:
+                            # Cari elemen berdasarkan teks di dalam container
+                            element = driver.find_element(By.XPATH, f"{container_xpath}//span[@class='rsqaWe' and text()='{target_text}']")
+                            print("Elemen ditemukan!")
+                            return element
+                        except:
+                            pass  # Jika elemen belum ditemukan, lanjutkan scroll
+                            
+                        # Scroll container ke bawah
+                        driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scrollable_div)
+                        time.sleep(pause_time)  # Tunggu konten memuat
+                        
+                        scroll_count += 1
+                        print(f"Scroll ke-{scroll_count}")
+                
+                    print("Elemen tidak ditemukan setelah menggulir container.")
+                    return None
+                # Scroll container hingga menemukan elemen
+                container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
+                element = scroll_div_until_element_found(driver, container_xpath,'2 bulan lalu', pause_time=2)
+                if element:
+                    print("Teks ditemukan:", element.text)
+                else:
+                    print("Teks tidak ditemukan.")
+
                 response = BeautifulSoup(driver.page_source, 'html.parser')
                 reviews = response.find_all('div', class_='w6VYqd')
                 review_texts,id_ulasan=get_review_summary(reviews)
