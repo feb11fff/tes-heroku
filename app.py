@@ -162,19 +162,6 @@ with st.container():
                     return review_texts,id_ulasan
                     time.sleep(5)
                     def scroll_div_until_element_found(driver, container_xpath, target_text, pause_time=2, max_scrolls=50):
-                        """
-                        Menggulir elemen container hingga menemukan elemen dengan teks tertentu.
-                        
-                        Args:
-                            driver: Selenium WebDriver instance.
-                            container_xpath: XPath container yang dapat digulir.
-                            target_text: Teks yang dicari di dalam elemen.
-                            pause_time: Waktu jeda (dalam detik) setelah setiap scroll.
-                            max_scrolls: Jumlah maksimum scroll untuk mencegah loop tak terbatas.
-                    
-                        Returns:
-                            WebElement: Elemen yang ditemukan, atau None jika tidak ditemukan.
-                        """
                         scroll_count = 0
                         scrollable_div = driver.find_element(By.XPATH, container_xpath)
                         
@@ -203,6 +190,9 @@ with st.container():
                             print("Teks ditemukan:", element.text)
                         else:
                             print("Teks tidak ditemukan.")
+                response = BeautifulSoup(driver.page_source, 'html.parser')
+                reviews = response.find_all('div', class_='w6VYqd')
+                review_texts,id_ulasan=get_review_summary(reviews)
                         # Buat dataframe
                 flat_data = [item for sublist in id_ulasan for item in sublist]
                 datas = {'id_review': flat_data, 'Review': review_texts}
