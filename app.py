@@ -159,7 +159,7 @@ with st.container():
                                         review_texts.append(first_sentence)  # Simpan kalimat pertama ke dalam list
                 
                     return review_texts,id_ulasan
-                    time.sleep(5))
+                    time.sleep(5)
                     def scroll_div_until_element_found(driver, container_xpath, target_text, pause_time=2, max_scrolls=50):
                         """
                         Menggulir elemen container hingga menemukan elemen dengan teks tertentu.
