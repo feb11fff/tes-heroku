@@ -204,8 +204,6 @@ with st.container():
                         # Buat dataframe
                         datas = {'id_review': flat_data, 'Review': review_texts}
                         data_scrapping = pd.DataFrame(data)
-                        
-                        data_scrapping
 
 
                         if element:
@@ -214,7 +212,7 @@ with st.container():
                             print("Teks tidak ditemukan.")
 
                     # Mengambil 10 data pertama dari kolom 'ulasan'
-                top_10_reviews = data_scrapping[]
+                top_10_reviews = data_scrapping['Review']
 
                 # Transformasi data ulasan ke fitur
                 new_X = vectorizer.transform(top_10_reviews).toarray()
