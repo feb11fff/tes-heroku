@@ -202,16 +202,13 @@ with st.container():
                         flat_data = [item for sublist in id_ulasan for item in sublist]
                         import pandas as pd
 
-                        # Buat dataframe
-                        datas = {'id_review': flat_data, 'Review': review_texts}
-                        data_scrapping = pd.DataFrame(datas)
-
-
                         if element:
                             print("Teks ditemukan:", element.text)
                         else:
                             print("Teks tidak ditemukan.")
-
+                        # Buat dataframe
+                datas = {'id_review': flat_data, 'Review': review_texts}
+                data_scrapping = pd.DataFrame(datas)
                     # Mengambil 10 data pertama dari kolom 'ulasan'
                 top_10_reviews = data_scrapping['Review']
 
