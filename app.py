@@ -253,25 +253,25 @@ with st.container():
                 reviews = response.find_all('div', class_='w6VYqd')
                 review_texts,id_ulasan,tanggal_ulasan=get_review_summary(reviews)
                 flat_data = [item for sublist in id_ulasan for item in sublist]
-                flat_datawaktu = [item for sublist in tanggal_ulasan for item in sublist]
-                difference = len(flat_datawaktu) - len(flat_data)
+                # flat_datawaktu = [item for sublist in tanggal_ulasan for item in sublist]
+                # difference = len(flat_datawaktu) - len(flat_data)
                 
-                # Memotong list flat_datawaktu dari belakang untuk menyamakan panjangnya dengan flat_data
-                flat_datawaktu = flat_datawaktu[:len(flat_data)]
+                # # Memotong list flat_datawaktu dari belakang untuk menyamakan panjangnya dengan flat_data
+                # flat_datawaktu = flat_datawaktu[:len(flat_data)]
 
-                datas = {'id_review': flat_data, 'Review': review_texts, 'waktu': flat_datawaktu}
+                datas = {'id_review': flat_data, 'Review': review_texts}
                 data_scrapping = pd.DataFrame(datas)
                 data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
-                data_scrapping
-                # Periksa apakah ada nilai yang cocok
-                if data_scrapping['waktu'].isin(keywords2).any():
-                    # Hapus baris yang memiliki nilai sama dengan keyword pada kolom 'waktu'
-                    data_scrapping = data_scrapping[~data_scrapping['waktu'].isin(keywords2)]
-                    print("Baris dengan nilai yang cocok dihapus.")
-                else:
-                    print("Tidak ada nilai yang cocok. Tidak ada aksi.")
-                    # Mengambil 10 data pertama dari kolom 'ulasan'
-                top_10_reviews = data_scrapping['Review']
+                # data_scrapping
+                # # Periksa apakah ada nilai yang cocok
+                # if data_scrapping['waktu'].isin(keywords2).any():
+                #     # Hapus baris yang memiliki nilai sama dengan keyword pada kolom 'waktu'
+                #     data_scrapping = data_scrapping[~data_scrapping['waktu'].isin(keywords2)]
+                #     print("Baris dengan nilai yang cocok dihapus.")
+                # else:
+                #     print("Tidak ada nilai yang cocok. Tidak ada aksi.")
+                #     # Mengambil 10 data pertama dari kolom 'ulasan'
+                # top_10_reviews = data_scrapping['Review']
 
                 # Transformasi data ulasan ke fitur
                 new_X = vectorizer.transform(top_10_reviews).toarray()
