@@ -176,7 +176,7 @@ with st.container():
                                 id_ulasan.append(ids)
                                 for div in all_divs:
                                     tanggal_ulas = div.find_all('span', class_='rsqaWe')  # Menemukan semua elemen <span> dengan kelas 'pan'
-                                    tanggal_ulas = [span.get_text(strip=True) for span in ext_data]
+                                    tanggal_ulas = [span.get_text(strip=True) for span in tanggal_ulas]
                                     tanggal_ulasan.append(tanggal_ulas)
                                     ext_data = div.find_all('span', class_='wiI7pd')  # Menemukan semua elemen <span> dengan kelas 'pan'
                                     ext_data = [span.get_text(strip=True) for span in ext_data]  # Mengambil teks dari setiap elemen <span> dan menghapus spasi
