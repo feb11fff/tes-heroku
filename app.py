@@ -119,9 +119,9 @@ with st.container():
         
         # Menentukan nilai minimum dan maksimum slider berdasarkan pilihan
         if time_range == "Minggu":
-            min_val, max_val = 1, 4  # 1 hingga minggu dalam sebulan
+            min_val, max_val = 1, 3  # 1 hingga minggu dalam sebulan
         elif time_range == "Bulan":
-            min_val, max_val = 1, 12  # 1 hingga 12 bulan dalam setahun
+            min_val, max_val = 1, 11  # 1 hingga 12 bulan dalam setahun
         
         # Menampilkan slider setelah memilih rentang waktu
         slider_value = st.slider(f"Pilih jumlah {time_range.lower()}:", min_value=min_val, max_value=max_val, value=min_val)
@@ -246,7 +246,14 @@ with st.container():
                 from collections import Counter
                 class_counts = Counter(predictions)
                 majority_class = class_counts.most_common(1)[0][0]  # Kelas dengan frekuensi tertinggi
-
+                # Menggunakan pandas
+                pred_series = pd.Series(predictions)
+                label_counts = pred_series.value_counts(normalize=True) * 100  # Menghitung persentase
+                
+                # Menampilkan hasil
+                print("Persentase antar label:")
+                for label, percentage in label_counts.items():
+                    print(f"{label}: {percentage:.2f}%")
                 st.write("Kelas mayoritas (kesimpulan):", majority_class)
             except FileNotFoundError:
                 st.error("File tidak ditemukan. Pastikan path file benar.")
