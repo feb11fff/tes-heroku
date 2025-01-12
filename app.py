@@ -224,7 +224,7 @@ with st.container():
                     return None
                 
                 # Daftar teks target yang ingin dicari
-                target_texts = [output,batasoutput2,batasoutput3,batasoutput4,batasoutput5,batasoutput6]
+                target_texts = ['seminggu lalu','2 minggu lalu','3minggu lalu','4 minggu lalu']
                 
                 # Scroll container hingga menemukan salah satu elemen
                 container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
