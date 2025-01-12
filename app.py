@@ -271,7 +271,7 @@ with st.container():
                 # else:
                 #     print("Tidak ada nilai yang cocok. Tidak ada aksi.")
                 #     # Mengambil 10 data pertama dari kolom 'ulasan'
-                # top_10_reviews = data_scrapping['Review']
+                top_10_reviews = data_scrapping['Review']
 
                 # Transformasi data ulasan ke fitur
                 new_X = vectorizer.transform(top_10_reviews).toarray()
