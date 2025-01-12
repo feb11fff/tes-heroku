@@ -227,7 +227,8 @@ with st.container():
                 flat_data = [item for sublist in id_ulasan for item in sublist]
                 flat_datawaktu = [item for sublist in tanggal_ulasan for item in sublist]
                 flat_datawaktu.pop(0)
-                datas = {'id_review': flat_data, 'Review': review_texts, 'waktu': flat_datawaktu}
+                st.write(len(flat_datawaktu))
+                datas = {'id_review': flat_data, 'Review': review_texts}
                 data_scrapping = pd.DataFrame(datas)
                 data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
                 data_scrapping
