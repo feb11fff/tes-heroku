@@ -206,7 +206,7 @@ with st.container():
                     return None
                 # Scroll container hingga menemukan elemen
                 container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
-                element = scroll_div_until_element_found(driver, container_xpath,'slider_value', pause_time=2)
+                element = scroll_div_until_element_found(driver, container_xpath,output, pause_time=2)
                 if element:
                     print("Teks ditemukan:", element.text)
                 else:
