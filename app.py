@@ -199,40 +199,55 @@ with st.container():
                     return review_texts,id_ulasan,tanggal_ulasan
                     time.sleep(5)
 
-                def scroll_div_until_element_found(driver, container_xpath, target_texts, pause_time=2, max_scrolls=10):
+                def scroll_div_until_element_found(driver, container_xpath, target_texts, pause_time=2, max_scrolls=50):
+                    """
+                    Menggulir elemen container hingga menemukan elemen dengan salah satu teks tertentu.
+                
+                    Args:
+                        driver: Selenium WebDriver instance.
+                        container_xpath: XPath container yang dapat digulir.
+                        target_texts: Daftar teks yang dicari di dalam elemen.
+                        pause_time: Waktu jeda (dalam detik) setelah setiap scroll.
+                        max_scrolls: Jumlah maksimum scroll untuk mencegah loop tak terbatas.
+                
+                    Returns:
+                        WebElement: Elemen yang ditemukan, atau None jika tidak ditemukan.
+                    """
                     scroll_count = 0
                     scrollable_div = driver.find_element(By.XPATH, container_xpath)
-                    
+                
                     while scroll_count < max_scrolls:
-                        try:
-                            # Cari elemen berdasarkan teks di dalam container, untuk setiap teks dalam target_texts
-                            for target_text in target_texts:
+                        for target_text in target_texts:
+                            try:
+                                # Cari elemen berdasarkan teks di dalam container
                                 element = driver.find_element(By.XPATH, f"{container_xpath}//span[@class='rsqaWe' and text()='{target_text}']")
                                 print(f"Elemen dengan teks '{target_text}' ditemukan!")
                                 return element
-                        except:
-                            pass  # Jika elemen belum ditemukan, lanjutkan scroll
-                        
+                            except:
+                                continue  # Jika elemen belum ditemukan, lanjutkan ke teks berikutnya
+                
                         # Scroll container ke bawah
                         driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scrollable_div)
                         time.sleep(pause_time)  # Tunggu konten memuat
-                        
+                
                         scroll_count += 1
                         print(f"Scroll ke-{scroll_count}")
-                    
+                
                     print("Elemen tidak ditemukan setelah menggulir container.")
                     return None
-                
-                # Daftar teks target yang ingin dicari
-                target_texts = ['seminggu lalu','2 minggu lalu','3minggu lalu','4 minggu lalu']
-                
-                # Scroll container hingga menemukan salah satu elemen
-                container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
-                element = scroll_div_until_element_found(driver, container_xpath, target_texts, pause_time=2)
-                if element:
-                    print("Teks ditemukan:", element.text)
-                else:
-                    print("Teks tidak ditemukan.")
+                                
+                    keywords = ['seminggu lalu','2 minggu lalu','3 minggu lalu','4 minggu lalu']
+                    
+                    # XPath container
+                    container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
+                    
+                    # Panggil fungsi
+                    element = scroll_div_until_element_found(driver, container_xpath, keywords, pause_time=2, max_scrolls=50)
+                    
+                    if element:
+                        print("Teks ditemukan:", element.text)
+                    else:
+                        print("Teks tidak ditemukan.")
 
                 response = BeautifulSoup(driver.page_source, 'html.parser')
                 reviews = response.find_all('div', class_='w6VYqd')
