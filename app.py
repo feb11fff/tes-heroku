@@ -311,7 +311,76 @@ with st.container():
             driver.quit()
 
         if st.button("Pantai Slopeng"):
+            from bs4 import BeautifulSoup
+            from selenium import webdriver
+            from selenium import webdriver
+            from selenium.webdriver.chrome.options import Options
+            from selenium.common.exceptions import NoSuchElementException, WebDriverException
+            from selenium.webdriver.chrome.service import Service
+            from selenium.webdriver.common.by import By
+            import os
             import time
+            options = webdriver.ChromeOptions()
+            # options.add_argument("--headless")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--no-sandbox")
+            
+            driver = webdriver.Chrome(options=options)
+                            # URL dari Google Search
+            url='https://www.google.com/maps/place/Pantai+Slopeng/@-6.8861094,113.792343,15z/data=!4m8!3m7!1s0x2dd9ea23fabac2df:0x8550176773c06614!8m2!3d-6.8861095!4d113.792343!9m1!1b1!16s%2Fg%2F112yfwt6c?entry=ttu&g_ep=EgoyMDI1MDEwOC4wIKXMDSoASAFQAw%3D%3D'
+            driver.get(url)
+            time.sleep(5)
+            tombol = driver.find_element(By.XPATH, "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[7]/div[2]/button")
+            tombol.click()
+            time.sleep(5)
+            # Klik menggunakan JavaScript
+            terbaru_button = driver.find_element(By.XPATH, "//div[@class='mLuXec'][contains(text(),'Terbaru')]")
+            driver.execute_script("arguments[0].click();", terbaru_button)
+            def get_review_summary(result_set):
+                review_texts = []  # List untuk menyimpan teks review
+                id_ulasan=[]
+                w_ulas=[]
+            
+                for result in result_set:
+                    articles = result.find_all('div', class_='m6QErb XiKgde')
+                    for article in articles:
+                        all_divs = article.find_all('div', class_='GHT2ce')
+                        if all_divs:
+                            ids = [div.get('id') for div in all_divs if div.get('id')]
+                            id_ulasan.append(ids)
+                            for div in all_divs:
+                                ext_data = div.find_all('span', class_='wiI7pd')
+                                ext_data = [span.get_text(strip=True) for span in ext_data]
+                                
+                                waktu = div.find_all('span', class_='rsqaWe')
+                                print(f"Jumlah elemen waktu yang ditemukan: {len(waktu)}")  # Debugging jumlah waktu
+                                waktu = [span.get_text(strip=True) for span in waktu]
+                                
+                                if waktu:  # Pastikan ada data waktu
+                                    w_ulas.append(waktu[0])  # Ambil waktu pertama jika ada beberapa
+                                
+                                for text in ext_data:
+                                    first_sentence = text
+                                    review_texts.append(first_sentence)
+                
+                print(f"Total jumlah waktu yang ditemukan: {len(w_ulas)}")
+            
+            
+                return review_texts,id_ulasan,w_ulas
+            
+                time.sleep(5)
+                response = BeautifulSoup(driver.page_source, 'html.parser')
+                reviews = response.find_all('div', class_='w6VYqd')
+                review_texts,id_ulasan,w_ulas=get_review_summary(reviews)
+                import pandas as pd
+
+                # Buat dataframe
+                data = {'id_review': flat_data, 'Review': review_texts}
+                df = pd.DataFrame(data)
+                
+                df
+
+
        
         if st.button("Pantai Sembilan"):
             try:
