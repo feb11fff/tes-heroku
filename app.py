@@ -120,12 +120,8 @@ with st.container():
         # Menentukan nilai minimum dan maksimum slider berdasarkan pilihan
         if time_range == "Minggu":
             min_val, max_val = 1, 4  # 1 hingga minggu dalam sebulan
-            batasoutput5='sebulan lalu'
-            batasoutput6='2 bulan lalu'
         elif time_range == "Bulan":
             min_val, max_val = 1, 12  # 1 hingga 12 bulan dalam setahun
-            batasoutput5=batasoutput4
-            batasoutput6=batasoutput4
         
         # Menampilkan slider setelah memilih rentang waktu
         slider_value = st.slider(f"Pilih jumlah {time_range.lower()}:", min_value=min_val, max_value=max_val, value=min_val)
@@ -134,13 +130,13 @@ with st.container():
         if slider_value == 1:
             output = f"se{time_range.lower()} lalu"
             batasoutput2=f"{slider_value+1} {time_range.lower()} lalu"
-            batasoutput3=f"{slider_value+1} {time_range.lower()} lalu"
-            batasoutput4=f"{slider_value+1} {time_range.lower()} lalu"
+            batasoutput3=f"{slider_value+2} {time_range.lower()} lalu"
+            batasoutput4=f"{slider_value+3} {time_range.lower()} lalu"
         else:
             output = f"{slider_value} {time_range.lower()} lalu"
             batasoutput2=f"{slider_value+1} {time_range.lower()} lalu"
-            batasoutput3=f"{slider_value+1} {time_range.lower()} lalu"
-            batasoutput4=f"{slider_value+1} {time_range.lower()} lalu"
+            batasoutput3=f"{slider_value+2} {time_range.lower()} lalu"
+            batasoutput4=f"{slider_value+3} {time_range.lower()} lalu"
         
         st.write(f"Hasil: {output}")
         
@@ -236,7 +232,7 @@ with st.container():
                     print("Elemen tidak ditemukan setelah menggulir container.")
                     return None
                                 
-                    keywords = [output,batasoutput2,batasoutput3,batasoutput4,batasoutput5,batasoutput6]
+                    keywords = [output,batasoutput2,batasoutput3,batasoutput4]
                     
                     # XPath container
                     container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
