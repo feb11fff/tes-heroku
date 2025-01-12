@@ -253,7 +253,7 @@ with st.container():
                 # Menampilkan hasil
                 st.write("Persentase antar label:")
                 for label, percentage in label_counts.items():
-                    print(f"{label}: {percentage:.2f}%")
+                    st.write(f"{label}: {percentage:.2f}%")
                 st.write("Kelas mayoritas (kesimpulan):", majority_class)
             except FileNotFoundError:
                 st.error("File tidak ditemukan. Pastikan path file benar.")
