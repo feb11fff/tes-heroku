@@ -128,7 +128,7 @@ with st.container():
         
         # Logika untuk menampilkan hasil
         if slider_value == 1:
-            output = f"se {time_range.lower()} lalu"
+            output = f"se{time_range.lower()} lalu"
         else:
             output = f"{slider_value} {time_range.lower()} lalu"
         
