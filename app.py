@@ -129,10 +129,10 @@ with st.container():
         # Logika untuk menampilkan hasil
         if slider_value == 1:
             output = f"se{time_range.lower()} lalu"
-            batasoutput=f"se{1+time_range.lower()} lalu"
+            batasoutput=f"{slider_value+1} {time_range.lower()} lalu"
         else:
             output = f"{slider_value} {time_range.lower()} lalu"
-            batasoutput=f"se{1+time_range.lower()} lalu"
+            batasoutput=f"{slider_value+1} {time_range.lower()} lalu"
         
         st.write(f"Hasil: {output}")
         
