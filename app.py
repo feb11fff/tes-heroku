@@ -119,9 +119,13 @@ with st.container():
         
         # Menentukan nilai minimum dan maksimum slider berdasarkan pilihan
         if time_range == "Minggu":
-            min_val, max_val = 1, 3  # 1 hingga minggu dalam sebulan
+            min_val, max_val = 1, 4  # 1 hingga minggu dalam sebulan
+            batasoutput5='sebulan lalu'
+            batasoutput6='2 bulan lalu'
         elif time_range == "Bulan":
-            min_val, max_val = 1, 11  # 1 hingga 12 bulan dalam setahun
+            min_val, max_val = 1, 12  # 1 hingga 12 bulan dalam setahun
+            batasoutput5=batasoutput4
+            batasoutput6=batasoutput4
         
         # Menampilkan slider setelah memilih rentang waktu
         slider_value = st.slider(f"Pilih jumlah {time_range.lower()}:", min_value=min_val, max_value=max_val, value=min_val)
@@ -220,7 +224,7 @@ with st.container():
                     return None
                 
                 # Daftar teks target yang ingin dicari
-                target_texts = [output,batasoutput2,batasoutput3,batasoutput4]
+                target_texts = [output,batasoutput2,batasoutput3,batasoutput4,batasoutput5,batasoutput6]
                 
                 # Scroll container hingga menemukan salah satu elemen
                 container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
