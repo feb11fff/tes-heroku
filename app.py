@@ -294,6 +294,7 @@ with st.container():
                 def get_review_summary(result_set):
                     review_texts = []  # List untuk menyimpan teks review
                     id_ulasan=[]
+                    waktu_ulasan=[]
                 
                     for result in result_set:
                         articles = result.find_all('div', class_='m6QErb XiKgde')
@@ -305,13 +306,13 @@ with st.container():
                                 for div in all_divs:
                                     ext_data = div.find_all('span', class_='wiI7pd')  # Menemukan semua elemen <span> dengan kelas 'pan'
                                     ext_data = [span.get_text(strip=True) for span in ext_data]  # Mengambil teks dari setiap elemen <span> dan menghapus spasi
-                    
-                                                    # Iterasi melalui setiap teks di ext_data dan ambil kalimat pertama
+                                    waktu_ulas = driver.find_element(By.XPATH, f"{container_xpath}//span[@class='rsqaWe' and text()='{target_text}']")
+                                    waktu_ulasan.append(waktu_ulas)
                                     for text in ext_data:
                                         first_sentence = text  # Mengambil kalimat pertama sebelum titik
                                         review_texts.append(first_sentence)  # Simpan kalimat pertama ke dalam list
                 
-                    return review_texts,id_ulasan
+                    return review_texts,id_ulasan,waktu_ulasan
                     time.sleep(5)
                 def scroll_div_until_element_found(driver, container_xpath, target_text, pause_time=2, max_scrolls=50):
                     scroll_count = 0
@@ -345,11 +346,12 @@ with st.container():
 
                 response = BeautifulSoup(driver.page_source, 'html.parser')
                 reviews = response.find_all('div', class_='w6VYqd')
-                review_texts,id_ulasan=get_review_summary(reviews)
+                review_texts,id_ulasan,waktu_ulasan=get_review_summary(reviews)
                         # Buat dataframe
                 flat_data = [item for sublist in id_ulasan for item in sublist]
-                datas = {'id_review': flat_data, 'Review': review_texts}
+                datas = {'id_review': flat_data, 'Review': review_texts,'waktu': waktu_ulasan}
                 data_scrapping = pd.DataFrame(datas)
+                data_scrapping
                 data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
                     # Mengambil 10 data pertama dari kolom 'ulasan'
                 top_10_reviews = data_scrapping['Review']
