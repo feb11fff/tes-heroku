@@ -198,7 +198,7 @@ with st.container():
                 flat_data = [item for sublist in id_ulasan for item in sublist]
                 datas = {'id_review': flat_data, 'Review': review_texts}
                 data_scrapping = pd.DataFrame(datas)
-                data_scrapping
+                data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
                     # Mengambil 10 data pertama dari kolom 'ulasan'
                 top_10_reviews = data_scrapping['Review']
 
