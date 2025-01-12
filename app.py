@@ -185,7 +185,7 @@ with st.container():
                     return review_texts,id_ulasan
                     time.sleep(5)
 
-                def scroll_div_until_element_found(driver, container_xpath, target_text, pause_time=2, max_scrolls=50):
+                def scroll_div_until_element_found(driver, container_xpath, target_text, pause_time=2, max_scrolls=5):
                     scroll_count = 0
                     scrollable_div = driver.find_element(By.XPATH, container_xpath)
                     
