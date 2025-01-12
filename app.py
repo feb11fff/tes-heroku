@@ -252,13 +252,13 @@ with st.container():
                 response = BeautifulSoup(driver.page_source, 'html.parser')
                 reviews = response.find_all('div', class_='w6VYqd')
                 review_texts,id_ulasan,tanggal_ulasan=get_review_summary(reviews)
-                        # Buat dataframe
                 flat_data = [item for sublist in id_ulasan for item in sublist]
                 flat_datawaktu = [item for sublist in tanggal_ulasan for item in sublist]
                 difference = len(flat_datawaktu) - len(flat_data)
                 
-                # Memotong list1 untuk menyamakan panjangnya dengan list2
-                flat_datawaktu = flat_datawaktu[:difference]
+                # Memotong list flat_datawaktu dari belakang untuk menyamakan panjangnya dengan flat_data
+                flat_datawaktu = flat_datawaktu[:len(flat_data)]
+
                 datas = {'id_review': flat_data, 'Review': review_texts, 'waktu': flat_datawaktu}
                 data_scrapping = pd.DataFrame(datas)
                 data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
