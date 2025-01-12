@@ -263,6 +263,13 @@ with st.container():
                 data_scrapping = pd.DataFrame(datas)
                 data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
                 data_scrapping
+                # Periksa apakah ada nilai yang cocok
+                if data_scrapping['waktu'].isin(keywords).any():
+                    # Hapus baris yang memiliki nilai sama dengan keyword pada kolom 'waktu'
+                    df = df[~df['waktu'].isin(keywords)]
+                    print("Baris dengan nilai yang cocok dihapus.")
+                else:
+                    print("Tidak ada nilai yang cocok. Tidak ada aksi.")
                     # Mengambil 10 data pertama dari kolom 'ulasan'
                 top_10_reviews = data_scrapping['Review']
 
