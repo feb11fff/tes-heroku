@@ -222,7 +222,7 @@ with st.container():
                 review_texts,id_ulasan,tanggal_ulasan=get_review_summary(reviews)
                         # Buat dataframe
                 flat_data = [item for sublist in id_ulasan for item in sublist]
-                datas = {'id_review': flat_data, 'Review': review_texts}
+                datas = {'id_review': flat_data, 'Review': review_texts, 'waktu': tanggal_ulasan}
                 data_scrapping = pd.DataFrame(datas)
                 data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
                 data_scrapping
