@@ -248,7 +248,7 @@ with st.container():
                         print("Teks ditemukan:", element.text)
                     else:
                         print("Teks tidak ditemukan.")
-                keywords = [output,batasoutput2,batasoutput3,batasoutput4,batasoutput5,batasoutput6]
+                keywords2 = [batasoutput2,batasoutput3,batasoutput4,batasoutput5,batasoutput6]
                 response = BeautifulSoup(driver.page_source, 'html.parser')
                 reviews = response.find_all('div', class_='w6VYqd')
                 review_texts,id_ulasan,tanggal_ulasan=get_review_summary(reviews)
@@ -264,9 +264,9 @@ with st.container():
                 data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
                 data_scrapping
                 # Periksa apakah ada nilai yang cocok
-                if data_scrapping['waktu'].isin(keywords).any():
+                if data_scrapping['waktu'].isin(keywords2).any():
                     # Hapus baris yang memiliki nilai sama dengan keyword pada kolom 'waktu'
-                    df = df[~df['waktu'].isin(keywords)]
+                    data_scrapping = data_scrapping[~data_scrapping['waktu'].isin(keywords2)]
                     print("Baris dengan nilai yang cocok dihapus.")
                 else:
                     print("Tidak ada nilai yang cocok. Tidak ada aksi.")
