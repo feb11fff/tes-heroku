@@ -244,7 +244,7 @@ with st.container():
                         print("Teks ditemukan:", element.text)
                     else:
                         print("Teks tidak ditemukan.")
-                keywords2 = [batasoutput2,batasoutput3,batasoutput4,batasoutput5,batasoutput6]
+                # keywords2 = [batasoutput2,batasoutput3,batasoutput4,batasoutput5,batasoutput6]
                 response = BeautifulSoup(driver.page_source, 'html.parser')
                 reviews = response.find_all('div', class_='w6VYqd')
                 review_texts,id_ulasan,tanggal_ulasan=get_review_summary(reviews)
