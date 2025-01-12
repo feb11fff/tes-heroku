@@ -183,7 +183,7 @@ with st.container():
                                     for text in ext_data:
                                         first_sentence = text  # Mengambil kalimat pertama sebelum titik
                                         review_texts.append(first_sentence)  # Simpan kalimat pertama ke dalam list
-                            waktu = article.find_all('div', class_='DU9Pgb')
+                                waktu = article.find_all('div', class_='DU9Pgb')
                                 for div in waktu:
                                     tanggal_ulas = div.find_all('span', class_='rsqaWe')
                                     tanggal_ulas = [span.get_text(strip=True) for span in tanggal_ulas]  # Mengambil teks dari setiap elemen <span> dan menghapus spasi
