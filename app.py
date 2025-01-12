@@ -257,7 +257,7 @@ with st.container():
 
                 datas = {'id_review': flat_data, 'Review': review_texts}
                 data_scrapping = pd.DataFrame(datas)
-                data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
+                # data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
                 # data_scrapping
                 # # Periksa apakah ada nilai yang cocok
                 # if data_scrapping['waktu'].isin(keywords2).any():
