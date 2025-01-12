@@ -280,7 +280,7 @@ with st.container():
                 
                 driver = webdriver.Chrome(options=options)
                 # URL dari Google Search
-                url = 'https://www.google.com/maps/place/Pantai+Slopeng/@-6.8861093,113.7820433,15z/data=!4m8!3m7!1s0x2dd9ea23fabac2df:0x8550176773c06614!8m2!3d-6.8861095!4d113.792343!9m1!1b1!16s%2Fg%2F112yfwt6c?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3Dhl=id&gl=ID'
+                url='https://www.google.com/maps/place/Pantai+Slopeng/@-6.8861093,113.7820433,15z/data=!4m8!3m7!1s0x2dd9ea23fabac2df:0x8550176773c06614!8m2!3d-6.8861095!4d113.792343!9m1!1b1!16s%2Fg%2F112yfwt6c?entry=ttu&g_ep=EgoyMDI1MDEwOC4wIKXMDSoASAFQAw%3D%3D'
                 driver.get(url)
                 time.sleep(5)
                 tombol = driver.find_element(By.XPATH, "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[7]/div[2]/button")
@@ -392,7 +392,6 @@ with st.container():
             time.sleep(5)
             # Menutup driver
             driver.quit()
-
         if st.button("Pantai Sembilan"):
             try:
                 from bs4 import BeautifulSoup
