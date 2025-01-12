@@ -236,7 +236,7 @@ with st.container():
                     print("Elemen tidak ditemukan setelah menggulir container.")
                     return None
                                 
-                    keywords = ['seminggu lalu','2 minggu lalu','3 minggu lalu','4 minggu lalu']
+                    keywords = [output,batasoutput2,batasoutput3,batasoutput4,batasoutput5,batasoutput6]
                     
                     # XPath container
                     container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
