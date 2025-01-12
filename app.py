@@ -174,7 +174,7 @@ with st.container():
                             if all_divs:
                                 ids = [div.get('id') for div in all_divs if div.get('id')]
                                 id_ulasan.append(ids)
-                                tanggal_ulas = all_divs.find_all('span', class_='rsqaWe')  # Menemukan semua elemen <span> dengan kelas 'pan'
+                                tanggal_ulas = all_divs.find('span', class_='rsqaWe')  # Menemukan semua elemen <span> dengan kelas 'pan'
                                 tanggal_ulas = [span.get_text(strip=True) for span in tanggal_ulas]
                                 tanggal_ulasan.append(tanggal_ulas)
                                 for div in all_divs:
