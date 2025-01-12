@@ -178,7 +178,6 @@ with st.container():
                                     ext_data = div.find_all('span', class_='wiI7pd')  # Menemukan semua elemen <span> dengan kelas 'pan'
                                     ext_data = [span.get_text(strip=True) for span in ext_data]  # Mengambil teks dari setiap elemen <span> dan menghapus spasi
                                     tanggal_ulas = div.find_all('span', class_='rsqaWe')
-                                    tanggal_ulas = [span.get_text(strip=True) for span in tanggal_ulas]
                                     tanggal_ulasan.append(tanggal_ulas)
                                                     # Iterasi melalui setiap teks di ext_data dan ambil kalimat pertama
                                     for text in ext_data:
