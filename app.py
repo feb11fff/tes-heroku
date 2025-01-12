@@ -258,7 +258,7 @@ with st.container():
                 difference = len(flat_datawaktu) - len(flat_data)
                 
                 # Memotong list1 untuk menyamakan panjangnya dengan list2
-                flat_datawaktu = flat_datawaktu[difference:]
+                flat_datawaktu = flat_datawaktu[:difference]
                 datas = {'id_review': flat_data, 'Review': review_texts, 'waktu': flat_datawaktu}
                 data_scrapping = pd.DataFrame(datas)
                 data_scrapping = data_scrapping.drop_duplicates(subset='id_review')
