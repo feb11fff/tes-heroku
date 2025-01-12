@@ -275,6 +275,7 @@ with st.container():
             driver.quit()
 
         if st.button("Pantai Slopeng"):
+            import time
        
         if st.button("Pantai Sembilan"):
             try:
