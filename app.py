@@ -251,7 +251,7 @@ with st.container():
                 label_counts = pred_series.value_counts(normalize=True) * 100  # Menghitung persentase
                 
                 # Menampilkan hasil
-                print("Persentase antar label:")
+                st.write("Persentase antar label:")
                 for label, percentage in label_counts.items():
                     print(f"{label}: {percentage:.2f}%")
                 st.write("Kelas mayoritas (kesimpulan):", majority_class)
