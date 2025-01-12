@@ -112,8 +112,29 @@ with st.container():
         url2 = "https://github.com/feb11fff/sistem-skripsi/tree/main"
         st.write("source code implemnatasi streamlit pada github [link](%s)" % url2)
         st.title("pilih sentimen wisata")
+        import streamlit as st
+
+        # Pilihan rentang waktu
+        time_range = st.selectbox("Pilih rentang waktu:", ["Minggu", "Bulan"])
         
-      
+        # Menentukan nilai minimum dan maksimum slider berdasarkan pilihan
+        if time_range == "Minggu":
+            min_val, max_val = 1, 4  # 1 hingga minggu dalam sebulan
+        elif time_range == "Bulan":
+            min_val, max_val = 1, 12  # 1 hingga 12 bulan dalam setahun
+        
+        # Menampilkan slider setelah memilih rentang waktu
+        slider_value = st.slider(f"Pilih jumlah {time_range.lower()}:", min_value=min_val, max_value=max_val, value=min_val)
+        
+        # Logika untuk menampilkan hasil
+        if slider_value == 1:
+            output = f"se {time_range.lower()} lalu"
+        else:
+            output = f"{slider_value} {time_range.lower()} lalu"
+        
+        st.write(f"Hasil: {output}")
+        
+              
         if st.button("Bukit Jaddih"):
             try:
                 from bs4 import BeautifulSoup
@@ -185,7 +206,7 @@ with st.container():
                     return None
                 # Scroll container hingga menemukan elemen
                 container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
-                element = scroll_div_until_element_found(driver, container_xpath,'2 bulan lalu', pause_time=2)
+                element = scroll_div_until_element_found(driver, container_xpath,'slider_value', pause_time=2)
                 if element:
                     print("Teks ditemukan:", element.text)
                 else:
