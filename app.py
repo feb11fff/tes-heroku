@@ -709,17 +709,11 @@ with st.container():
                 data = {'id_review': flat_data, 'Review': review_texts, 'waktu': combined_list}
                 df = pd.DataFrame(data)
                 if time_range=='Minggu':
-                    kata_tambahan = "bulan"
-                    # Gabungkan kata kunci menjadi satu pola regex
-                    kata_kunci = [batasoutput2,batasoutput3,batasoutput4, kata_tambahan]
-                    pattern = '|'.join(kata_kunci)
-                    df_filtered = df[~df['waktu'].str.contains(pattern, case=False, na=False)]
+                    df_filtered = df[~df['waktu'].str.contains('bulan', case=False, na=False)]
+                    df_filtered = df[~df['waktu'].isin([batasoutput2,batasoutput3,batasoutput4])]
                 else :
-                    kata_tambahan = "tahun"
-                    # Gabungkan kata kunci menjadi satu pola regex
-                    kata_kunci = [batasoutput2,batasoutput3,batasoutput4, kata_tambahan]
-                    pattern = '|'.join(kata_kunci)
-                    df_filtered = df[~df['waktu'].str.contains(pattern, case=False, na=False)]
+                    df_filtered = df[~df['waktu'].str.contains('tahun', case=False, na=False)]
+                    df_filtered = df[~df['waktu'].isin([batasoutput2,batasoutput3,batasoutput4])]
                 df
 
             except FileNotFoundError:
