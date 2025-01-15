@@ -711,5 +711,3 @@ with st.container():
                 # Buat dataframe
                 data = {'id_review': flat_data, 'Review': review_texts, 'waktu': combined_list}
                 df = pd.DataFrame(data)
-                
-                df
