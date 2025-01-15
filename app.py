@@ -702,7 +702,7 @@ with st.container():
                 review_texts,id_ulasan,w_ulas=get_review_summary(reviews)
                 combined_list = [item for sublist in w_ulas for item in sublist]
                 flat_data = [item for sublist in id_ulasan for item in sublist]
-                combined_list=combined_list[len(flat_data):]
+                combined_list = combined_list[:len(flat_data)]
                 import pandas as pd
                 
                 # Buat dataframe
