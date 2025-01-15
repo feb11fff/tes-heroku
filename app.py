@@ -713,14 +713,3 @@ with st.container():
                 df = pd.DataFrame(data)
                 
                 df
-                time.sleep(5)
-                # Menutup driver
-                driver.quit()
-
-
-
-        
-          
-
-
-        
