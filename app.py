@@ -708,7 +708,7 @@ with st.container():
                 # Buat dataframe
                 data = {'id_review': flat_data, 'Review': review_texts, 'waktu': combined_list}
                 df = pd.DataFrame(data)
-                if time_range='Minggu':
+                if time_range=='Minggu':
                     # Hapus baris jika kolom tertentu mengandung kata "bulan"
                     df = df[~df['waktu'].str.contains('bulan', case=False, na=False)]
                 df
