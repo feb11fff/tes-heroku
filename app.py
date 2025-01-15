@@ -711,3 +711,14 @@ with st.container():
                 # Buat dataframe
                 data = {'id_review': flat_data, 'Review': review_texts, 'waktu': combined_list}
                 df = pd.DataFrame(data)
+                df
+                
+
+            except FileNotFoundError:
+                st.error("File tidak ditemukan. Pastikan path file benar.")
+            except Exception as e:
+                st.error(f"Terjadi kesalahan: {e}")
+            import time
+            time.sleep(5)
+            # Menutup driver
+            driver.quit()
