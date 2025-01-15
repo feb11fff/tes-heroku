@@ -603,7 +603,7 @@ with st.container():
                 
                 driver = webdriver.Chrome(options=options)
                 # URL dari Google Search
-                url= 'https://www.google.com/maps/place/Pantai+Slopeng/@-6.8861093,113.7820433,15z/data=!4m8!3m7!1s0x2dd9ea23fabac2df:0x8550176773c06614!8m2!3d-6.8861095!4d113.792343!9m1!1b1!16s%2Fg%2F112yfwt6c?entry=ttu&g_ep=EgoyMDI1MDEwOC4wIKXMDSoASAFQAw%3D%3D&hl=id&gl=ID'
+                url= 'https://www.google.com/maps/place/Pantai+Lombang/@-6.9178648,114.0599177,16z/data=!4m8!3m7!1s0x2dd9f7276ab8c685:0xe6566e3638889a6!8m2!3d-6.9155738!4d114.0586496!9m1!1b1!16s%2Fg%2F112yfp277?entry=ttu&g_ep=EgoyMDI1MDExMC4wIKXMDSoASAFQAw%3D%3D&hl=id&gl=ID'
                 driver.get(url)
                 time.sleep(5)
                 tombol = driver.find_element(By.XPATH, "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[7]/div[2]/button")
