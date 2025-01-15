@@ -527,57 +527,119 @@ with st.container():
                 
                 driver = webdriver.Chrome(options=options)
                 # URL dari Google Search
-                url = 'https://www.google.com/maps/place/Air+Terjun+Toroan/@-6.8928897,113.3097483,17z/data=!4m8!3m7!1s0x2e0518178cebfebb:0xefcf0aa128f79400!8m2!3d-6.8928897!4d113.3123232!9m1!1b1!16s%2Fg%2F11b6pkts1w?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D&hl=id&gl=ID'
+                url= 'https://www.google.com/maps/place/Air+Terjun+Toroan/@-6.8928897,113.3097483,17z/data=!4m8!3m7!1s0x2e0518178cebfebb:0xefcf0aa128f79400!8m2!3d-6.8928897!4d113.3123232!9m1!1b1!16s%2Fg%2F11b6pkts1w?entry=ttu&g_ep=EgoyMDI1MDExMC4wIKXMDSoASAFQAw%3D%3D&hl=id&gl=ID'
                 driver.get(url)
-                response = BeautifulSoup(driver.page_source, 'html.parser')
-                reviews = response.find_all('div', class_='w6VYqd')
+                time.sleep(5)
+                tombol = driver.find_element(By.XPATH, "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[7]/div[2]/button")
+                tombol.click()
+                time.sleep(5)
+                # Klik menggunakan JavaScript
+                terbaru_button = driver.find_element(By.XPATH, "//div[@class='mLuXec'][contains(text(),'Terbaru')]")
+                driver.execute_script("arguments[0].click();", terbaru_button)
+                
                 def get_review_summary(result_set):
                     review_texts = []  # List untuk menyimpan teks review
-
+                    id_ulasan=[]
+                    w_ulas=[]         
                     for result in result_set:
                         articles = result.find_all('div', class_='m6QErb XiKgde')
                         for article in articles:
                             all_divs = article.find_all('div', class_='MyEned')
-                            for div in all_divs:
-                                ext_data = div.find_all('span', class_='wiI7pd')  # Menemukan semua elemen <span> dengan kelas 'pan'
-                                ext_data = [span.get_text(strip=True) for span in ext_data]  # Mengambil teks dari setiap elemen <span> dan menghapus spasi
+                            if all_divs:
+                                ids = [div.get('id') for div in all_divs if div.get('id')]
+                                id_ulasan.append(ids)
+                                for div in all_divs:
+                                    ext_data = div.find_all('span', class_='wiI7pd')
+                                    ext_data = [span.get_text(strip=True) for span in ext_data]
+                                    for text in ext_data:
+                                        first_sentence = text
+                                        review_texts.append(first_sentence)        
+                            waktu_ulas = article.find_all('div', class_='DU9Pgb')
+                            for div in waktu_ulas:
+                                tanggal_ulas = div.find_all('span', class_='rsqaWe')
+                                tanggal_ulas = [span.get_text(strip=True) for span in tanggal_ulas]  # Mengambil teks dari setiap elemen <span> dan menghapus spasi
+                                w_ulas.append(tanggal_ulas)
+                            
+                
+                
+                
+                    return review_texts,id_ulasan,w_ulas
+                
+                    time.sleep(5)
+                
+                from selenium.webdriver.common.by import By
+                import time
+                
+                def scroll_div_until_element_found(driver, container_xpath, target_texts, pause_time=2, max_scrolls=50):
+                    """
+                    Menggulir elemen container hingga menemukan elemen dengan salah satu teks tertentu.
+                
+                    Args:
+                        driver: Selenium WebDriver instance.
+                        container_xpath: XPath container yang dapat digulir.
+                        target_texts: Daftar teks yang dicari di dalam elemen.
+                        pause_time: Waktu jeda (dalam detik) setelah setiap scroll.
+                        max_scrolls: Jumlah maksimum scroll untuk mencegah loop tak terbatas.
+                
+                    Returns:
+                        WebElement: Elemen yang ditemukan, atau None jika tidak ditemukan.
+                    """
+                    scroll_count = 0
+                    scrollable_div = driver.find_element(By.XPATH, container_xpath)
+                
+                    while scroll_count < max_scrolls:
+                        for target_text in target_texts:
+                            try:
+                                # Cari elemen berdasarkan teks di dalam container
+                                element = driver.find_element(By.XPATH, f"{container_xpath}//span[@class='rsqaWe' and text()='{target_text}']")
+                                print(f"Elemen dengan teks '{target_text}' ditemukan!")
+                                return element
+                            except:
+                                continue  # Jika elemen belum ditemukan, lanjutkan ke teks berikutnya
+                
+                        # Scroll container ke bawah
+                        driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scrollable_div)
+                        time.sleep(pause_time)  # Tunggu konten memuat
+                
+                        scroll_count += 1
+                        print(f"Scroll ke-{scroll_count}")
+                
+                    print("Elemen tidak ditemukan setelah menggulir container.")
+                    return None
+                
+                # Daftar kata kunci yang dicari
+                keywords = [output,batasoutput2,batasoutput3,batasoutput4]
+                
+                # XPath container
+                container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
+                
+                # Panggil fungsi
+                element = scroll_div_until_element_found(driver, container_xpath, keywords, pause_time=2, max_scrolls=50)
+                
+                if element:
+                    print("Teks ditemukan:", element.text)
+                else:
+                    print("Teks tidak ditemukan.")
+                
+                response = BeautifulSoup(driver.page_source, 'html.parser')
+                reviews = response.find_all('div', class_='w6VYqd')
+                review_texts,id_ulasan,w_ulas=get_review_summary(reviews)
+                combined_list = [item for sublist in w_ulas for item in sublist]
+                flat_data = [item for sublist in id_ulasan for item in sublist]
+                combined_list = combined_list[:len(flat_data)]
+                import pandas as pd
+                
+                # Buat dataframe
+                data = {'id_review': flat_data, 'Review': review_texts, 'waktu': combined_list}
+                df = pd.DataFrame(data)
+                if time_range=='Minggu':
+                    df = df[~df['waktu'].str.contains('bulan', case=False, na=False)]
+                    df = df[~df['waktu'].isin([batasoutput2,batasoutput3,batasoutput4])]
+                else :
+                    df = df[~df['waktu'].str.contains('tahun', case=False, na=False)]
+                    df = df[~df['waktu'].isin([batasoutput2,batasoutput3,batasoutput4])]
+                df
 
-                                # Iterasi melalui setiap teks di ext_data dan ambil kalimat pertama
-                                for text in ext_data:
-                                    first_sentence = text  # Mengambil kalimat pertama sebelum titik
-                                    review_texts.append(first_sentence)  # Simpan kalimat pertama ke dalam list
-
-                    return review_texts
-                review_texts=get_review_summary(reviews)
-
-                    # Mengambil 10 data pertama dari kolom 'ulasan'
-                top_10_reviews = review_texts[-5:]
-
-                # Transformasi data ulasan ke fitur
-                new_X = vectorizer.transform(top_10_reviews).toarray()
-
-                # Membuat dictionary fitur (jika model membutuhkan format dictionary)
-                features_list = [
-                    {f"feature_{j}": new_X[i][j] for j in range(new_X.shape[1])}
-                    for i in range(new_X.shape[0])
-                ]
-
-                # Prediksi sentimen untuk setiap ulasan
-                predictions = [loaded_model.classify(features) for features in features_list]
-
-                # Menampilkan hasil prediksi
-                st.subheader("Hasil Prediksi Sentimen")
-                hasil_prediksi = pd.DataFrame({
-                    "Ulasan": top_10_reviews,
-                    "Prediksi Sentimen": predictions
-                })
-                st.write(hasil_prediksi)
-                # Hitung mayoritas kelas
-                from collections import Counter
-                class_counts = Counter(predictions)
-                majority_class = class_counts.most_common(1)[0][0]  # Kelas dengan frekuensi tertinggi
-
-                st.write("Kelas mayoritas (kesimpulan):", majority_class)
             except FileNotFoundError:
                 st.error("File tidak ditemukan. Pastikan path file benar.")
             except Exception as e:
@@ -586,6 +648,7 @@ with st.container():
             time.sleep(5)
             # Menutup driver
             driver.quit()
+
 
         if st.button("Pantai Lombang "):
             try:
@@ -708,14 +771,47 @@ with st.container():
                 # Buat dataframe
                 data = {'id_review': flat_data, 'Review': review_texts, 'waktu': combined_list}
                 df = pd.DataFrame(data)
-                # if time_range=='Minggu':
-                #     df = df[~df['waktu'].str.contains('bulan', case=False, na=False)]
-                #     df = df[~df['waktu'].isin([batasoutput2,batasoutput3,batasoutput4])]
-                # else :
-                #     df = df[~df['waktu'].str.contains('tahun', case=False, na=False)]
-                #     df = df[~df['waktu'].isin([batasoutput2,batasoutput3,batasoutput4])]
+                if time_range=='Minggu':
+                    df = df[~df['waktu'].str.contains('bulan', case=False, na=False)]
+                    df = df[~df['waktu'].isin([batasoutput2,batasoutput3,batasoutput4])]
+                else :
+                    df = df[~df['waktu'].str.contains('tahun', case=False, na=False)]
+                    df = df[~df['waktu'].isin([batasoutput2,batasoutput3,batasoutput4])]
                 df
+                top_10_reviews = df['Review']
 
+                # Transformasi data ulasan ke fitur
+                new_X = vectorizer.transform(top_10_reviews).toarray()
+
+                # Membuat dictionary fitur (jika model membutuhkan format dictionary)
+                features_list = [
+                    {f"feature_{j}": new_X[i][j] for j in range(new_X.shape[1])}
+                    for i in range(new_X.shape[0])
+                ]
+
+                # Prediksi sentimen untuk setiap ulasan
+                predictions = [loaded_model.classify(features) for features in features_list]
+
+                # Menampilkan hasil prediksi
+                st.subheader("Hasil Prediksi Sentimen")
+                hasil_prediksi = pd.DataFrame({
+                    "Ulasan": top_10_reviews,
+                    "Prediksi Sentimen": predictions
+                })
+                st.write(hasil_prediksi)
+                # Hitung mayoritas kelas
+                from collections import Counter
+                class_counts = Counter(predictions)
+                majority_class = class_counts.most_common(1)[0][0]  # Kelas dengan frekuensi tertinggi
+                # Menggunakan pandas
+                pred_series = pd.Series(predictions)
+                label_counts = pred_series.value_counts(normalize=True) * 100  # Menghitung persentase
+                
+                # Menampilkan hasil
+                st.write("Persentase antar label:")
+                for label, percentage in label_counts.items():
+                    st.write(f"{label}: {percentage:.2f}%")
+                st.write("Kelas mayoritas (kesimpulan):", majority_class)
             except FileNotFoundError:
                 st.error("File tidak ditemukan. Pastikan path file benar.")
             except Exception as e:
