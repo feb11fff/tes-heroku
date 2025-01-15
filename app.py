@@ -119,9 +119,9 @@ with st.container():
         
         # Menentukan nilai minimum dan maksimum slider berdasarkan pilihan
         if time_range == "Minggu":
-            min_val, max_val = 1, 4  # 1 hingga minggu dalam sebulan
+            min_val, max_val = 1, 3
         elif time_range == "Bulan":
-            min_val, max_val = 1, 12  # 1 hingga 12 bulan dalam setahun
+            min_val, max_val = 1, 12  # 1 hingga 11 bulan dalam setahun
         
         # Menampilkan slider setelah memilih rentang waktu
         slider_value = st.slider(f"Pilih jumlah {time_range.lower()}:", min_value=min_val, max_value=max_val, value=min_val)
@@ -709,8 +709,17 @@ with st.container():
                 data = {'id_review': flat_data, 'Review': review_texts, 'waktu': combined_list}
                 df = pd.DataFrame(data)
                 if time_range=='Minggu':
-                    # Hapus baris jika kolom tertentu mengandung kata "bulan"
-                    df = df[~df['waktu'].str.contains('bulan', case=False, na=False)]
+                    kata_tambahan = "bulan"
+                    # Gabungkan kata kunci menjadi satu pola regex
+                    kata_kunci = [batasoutput2,batasoutput3,batasoutput4, kata_tambahan]
+                    pattern = '|'.join(kata_kunci)
+                    df_filtered = df[~df['waktu'].str.contains(pattern, case=False, na=False)]
+                else :
+                    kata_tambahan = "tahun"
+                    # Gabungkan kata kunci menjadi satu pola regex
+                    kata_kunci = [batasoutput2,batasoutput3,batasoutput4, kata_tambahan]
+                    pattern = '|'.join(kata_kunci)
+                    df_filtered = df[~df['waktu'].str.contains(pattern, case=False, na=False)]
                 df
 
             except FileNotFoundError:
