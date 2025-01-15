@@ -684,7 +684,7 @@ with st.container():
                     return None
                 
                 # Daftar kata kunci yang dicari
-                keywords = ['setahun lalu']
+                keywords = [output,batasoutput2,batasoutput3,batasoutput4]
                 
                 # XPath container
                 container_xpath = "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]"
