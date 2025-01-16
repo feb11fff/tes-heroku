@@ -107,8 +107,6 @@ with st.container():
 
     
         st.subheader("Implementasi Menggunakan Data Baru")
-        url = "https://colab.research.google.com/drive/1im2fPYWSGElnmKdOR8ysApZsiG_jOlRR?usp=sharing"
-        st.write("Code implementasi scrapping dengan selenium [link](%s)" % url)
         url2 = "https://github.com/feb11fff/sistem-skripsi/tree/main"
         st.write("source code implemnatasi streamlit pada github [link](%s)" % url2)
         st.title("pilih sentimen wisata")
@@ -121,7 +119,7 @@ with st.container():
         if time_range == "Minggu":
             min_val, max_val = 1, 3
         elif time_range == "Bulan":
-            min_val, max_val = 1, 12  # 1 hingga 11 bulan dalam setahun
+            min_val, max_val = 1, 11  # 1 hingga 11 bulan 
         
         # Menampilkan slider setelah memilih rentang waktu
         slider_value = st.slider(f"Pilih jumlah {time_range.lower()}:", min_value=min_val, max_value=max_val, value=min_val)
