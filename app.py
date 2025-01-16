@@ -779,39 +779,41 @@ with st.container():
                     df = df[~df['waktu'].isin([batasoutput2,batasoutput3,batasoutput4])]
                 df
                 top_10_reviews = df['Review']
-
-                # Transformasi data ulasan ke fitur
-                new_X = vectorizer.transform(top_10_reviews).toarray()
-
-                # Membuat dictionary fitur (jika model membutuhkan format dictionary)
-                features_list = [
-                    {f"feature_{j}": new_X[i][j] for j in range(new_X.shape[1])}
-                    for i in range(new_X.shape[0])
-                ]
-
-                # Prediksi sentimen untuk setiap ulasan
-                predictions = [loaded_model.classify(features) for features in features_list]
-
-                # Menampilkan hasil prediksi
-                st.subheader("Hasil Prediksi Sentimen")
-                hasil_prediksi = pd.DataFrame({
-                    "Ulasan": top_10_reviews,
-                    "Prediksi Sentimen": predictions
-                })
-                st.write(hasil_prediksi)
-                # Hitung mayoritas kelas
-                from collections import Counter
-                class_counts = Counter(predictions)
-                majority_class = class_counts.most_common(1)[0][0]  # Kelas dengan frekuensi tertinggi
-                # Menggunakan pandas
-                pred_series = pd.Series(predictions)
-                label_counts = pred_series.value_counts(normalize=True) * 100  # Menghitung persentase
-                
-                # Menampilkan hasil
-                st.write("Persentase antar label:")
-                for label, percentage in label_counts.items():
-                    st.write(f"{label}: {percentage:.2f}%")
-                st.write("Kelas mayoritas (kesimpulan):", majority_class)
+                if df.empty:
+                    print("Tidak ada ulasan")
+                else:
+                    # Transformasi data ulasan ke fitur
+                    new_X = vectorizer.transform(top_10_reviews).toarray()
+    
+                    # Membuat dictionary fitur (jika model membutuhkan format dictionary)
+                    features_list = [
+                        {f"feature_{j}": new_X[i][j] for j in range(new_X.shape[1])}
+                        for i in range(new_X.shape[0])
+                    ]
+    
+                    # Prediksi sentimen untuk setiap ulasan
+                    predictions = [loaded_model.classify(features) for features in features_list]
+    
+                    # Menampilkan hasil prediksi
+                    st.subheader("Hasil Prediksi Sentimen")
+                    hasil_prediksi = pd.DataFrame({
+                        "Ulasan": top_10_reviews,
+                        "Prediksi Sentimen": predictions
+                    })
+                    st.write(hasil_prediksi)
+                    # Hitung mayoritas kelas
+                    from collections import Counter
+                    class_counts = Counter(predictions)
+                    majority_class = class_counts.most_common(1)[0][0]  # Kelas dengan frekuensi tertinggi
+                    # Menggunakan pandas
+                    pred_series = pd.Series(predictions)
+                    label_counts = pred_series.value_counts(normalize=True) * 100  # Menghitung persentase
+                    
+                    # Menampilkan hasil
+                    st.write("Persentase antar label:")
+                    for label, percentage in label_counts.items():
+                        st.write(f"{label}: {percentage:.2f}%")
+                    st.write("Kelas mayoritas (kesimpulan):", majority_class)
             except FileNotFoundError:
                 st.error("File tidak ditemukan. Pastikan path file benar.")
             except Exception as e:
