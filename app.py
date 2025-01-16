@@ -778,6 +778,7 @@ with st.container():
                     df = df[~df['waktu'].str.contains('tahun', case=False, na=False)]
                     df = df[~df['waktu'].isin([batasoutput2,batasoutput3,batasoutput4])]
                 df
+                df = df.drop_duplicates(subset='id_review', keep='first') if df['id_review'].duplicated().any() else df
                 top_10_reviews = df['Review']
                 if df.empty:
                     print("Tidak ada ulasan")
